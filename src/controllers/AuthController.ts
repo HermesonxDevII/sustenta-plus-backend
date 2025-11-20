@@ -84,7 +84,6 @@ class AuthController {
 
       const passwordMatch = await bcrypt.compare(password, user.password);
       const ability = user.role?.ability;
-      console.log(ability)
 
       if (!passwordMatch)
         return res.status(401).json({ error: 'Credenciais inválidas.' });
