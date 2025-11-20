@@ -8,5 +8,6 @@ routes.get('/', (req, res) => {
 });
 
 routes.post('/register', AuthController.register);
+routes.post('/login', AuthController.login);
 
 export default routes;
