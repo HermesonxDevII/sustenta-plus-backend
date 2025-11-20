@@ -14,12 +14,11 @@
   },
   "include": [
     "src/**/*",
-    "**/*.ts"
-, "migrations/20251119234028-create_users.js"  ],
+    "**/*.ts",
+  ],
   "exclude": [
     "node_modules",
     "dist",
-    "migrations",
-    "models"
+    "migrations"
   ]
 }
