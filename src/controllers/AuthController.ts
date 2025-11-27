@@ -46,7 +46,6 @@ class AuthController {
       return res.status(201).json({ 
         message: 'Usuário registrado com sucesso!', 
         user: {
-          id: user.id,
           name: user.name,
           email: user.email,
           ability: role.ability,
@@ -96,7 +95,6 @@ class AuthController {
       return res.status(200).json({ 
         message: 'Usuário logado com sucesso!', 
         user: {
-          id: user.id,
           name: user.name,
           email: user.email,
           ability: ability,
