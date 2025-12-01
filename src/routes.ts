@@ -1,7 +1,12 @@
 import { Router } from 'express';
-import AuthController from './controllers/AuthController'; 
-import { AuthMiddleware } from './middlewares/AuthMiddleware'; 
+import AuthController from './controllers/AuthController';
+import { AuthMiddleware } from './middlewares/AuthMiddleware';
 import { AbilityMiddleware } from './middlewares/AbilityMiddleware';
+import ReportControllerInstance from './controllers/ReportController';
+import multer from 'multer';
+import multerConfig from './config/multer';
+
+const upload = multer(multerConfig);
 
 const routes = Router();
 
@@ -12,23 +17,22 @@ const userRoutes = Router().use(AbilityMiddleware('user'));
 const collectorRoutes = Router().use(AbilityMiddleware('collector'));
 
 routes.get('/', (req, res) => {
-    return res.json({ message: 'API Sustenta Plus is running!' });
+  return res.json({ message: 'API Sustenta Plus is running!' });
 });
 
 routes.post('/register', AuthController.register);
 routes.post('/login', AuthController.login);
 
 adminRoutes.get('/teste', (req, res) => {
-    return res.json({ message: 'OK admin' });
+  return res.json({ message: 'OK admin' });
 });
 
 collectorRoutes.get('/teste', (req, res) => {
-    return res.json({ message: 'OK collector' });
+  return res.json({ message: 'OK collector' });
 });
 
-userRoutes.get('/teste', (req, res) => {
-    return res.json({ message: 'OK user' });
-});
+userRoutes.get('/report', ReportControllerInstance.index);
+userRoutes.post('/report', upload.array('images'), ReportControllerInstance.create);
 
 authenticatedRoutes.use('/admin', adminRoutes);
 authenticatedRoutes.use('/user', userRoutes);

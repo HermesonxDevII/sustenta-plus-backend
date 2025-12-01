@@ -2,6 +2,7 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
     "module": "commonjs",
     "target": "ES2022",
     "esModuleInterop": true,
