@@ -11,7 +11,7 @@ interface CollectionAttributes {
   street: string;
   number?: string;
   neighborhood: string;
-  postal_code: number;
+  postal_code: string;
   status_id: number;
   deleted_at?: Date;
   created_at: Date;
@@ -25,7 +25,7 @@ export class Collection extends Model<CollectionAttributes, CollectionCreationAt
   public street!: string;
   public number?: string;
   public neighborhood!: string;
-  public postal_code!: number;
+  public postal_code!: string;
   public status_id!: number;
   public deleted_at?: Date;
   public readonly created_at!: Date;
@@ -68,7 +68,7 @@ Collection.init({
     allowNull: false
   },
   postal_code: {
-    type: DataTypes.BIGINT,
+    type: DataTypes.STRING,
     allowNull: false
   },
   status_id: {

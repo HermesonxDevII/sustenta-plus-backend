@@ -2,24 +2,25 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
+    "typeRoots": ["./src/@types", "./node_modules/@types"],
     "module": "commonjs",
     "target": "ES2022",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es2022"],
-    "types": ["node", "express"],
+    "types": ["node", "express", "jest"],
     "strict": true,
     "skipLibCheck": true,
     "sourceMap": true
   },
   "include": [
     "src/**/*",
-    "**/*.ts"
-, "migrations/20251119234028-create_users.js"  ],
+    "**/*.ts",
+  ],
   "exclude": [
     "node_modules",
     "dist",
     "migrations",
-    "models"
+    "jest.config.ts"
   ]
 }

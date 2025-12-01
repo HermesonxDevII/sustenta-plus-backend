@@ -13,9 +13,9 @@ interface RoleAttributes {
 export interface RoleCreationAttributes extends Optional<RoleAttributes, 'id' | 'created_at' | 'updated_at'> {}
 
 export class Role extends Model<RoleAttributes, RoleCreationAttributes> implements RoleAttributes {
-  public id!: number;
-  public name!: string;
-  public ability!: string;
+  public declare id: number;
+  public declare name: string;
+  public declare ability: string;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 

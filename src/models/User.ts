@@ -23,23 +23,23 @@ export interface UserAttributes {
 export interface UserCreationAttributes extends Optional<UserAttributes, 'id' | 'created_at' | 'updated_at' | 'deleted_at' | 'status'> {}
 
 export class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
-  public id!: number;
-  public name!: string;
-  public cpf!: string;
-  public email!: string;
-  public password!: string;
-  public phone?: string;
-  public profile_photo?: string;
-  public status!: boolean;
-  public role_id!: number;
-  public deleted_at?: Date;
+  public declare id: number;
+  public declare name: string;
+  public declare cpf: string;
+  public declare email: string;
+  public declare password: string;
+  public declare phone?: string;
+  public declare profile_photo?: string;
+  public declare status: boolean;
+  public declare role_id: number;
+  public declare deleted_at?: Date;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 
-  public role?: Role;
-  public reports?: Report[];
-  public collections?: Collection[];
-  public interactedCollections?: Collection[];
+  public declare role?: Role;
+  public declare reports?: Report[];
+  public declare collections?: Collection[];
+  public declare interactedCollections?: Collection[];
   
   static associate() {
     User.belongsTo(Role, { foreignKey: 'role_id', as: 'role' });
