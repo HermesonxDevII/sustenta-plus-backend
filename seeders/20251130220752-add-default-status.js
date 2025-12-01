@@ -18,11 +18,6 @@ module.exports = {
         updated_at: new Date()
       },
       {
-        name: 'Aprovado',
-        created_at: new Date(),
-        updated_at: new Date()
-      },
-      {
         name: 'Recusado',
         created_at: new Date(),
         updated_at: new Date()

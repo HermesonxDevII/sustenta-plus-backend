@@ -25,7 +25,8 @@ routes.post('/login', AuthController.login);
 
 adminRoutes.get('/report', ReportControllerInstance.index);
 adminRoutes.put('/report/:id', ReportControllerInstance.update);
-adminRoutes.patch('/report/approve/:id', ReportControllerInstance.approve);
+adminRoutes.patch('/report/accept/:id', ReportControllerInstance.accept);
+adminRoutes.patch('/report/refuse/:id', ReportControllerInstance.refuse);
 
 collectorRoutes.get('/teste', (req, res) => {
   return res.json({ message: 'OK collector' });
@@ -33,6 +34,7 @@ collectorRoutes.get('/teste', (req, res) => {
 
 userRoutes.get('/report', ReportControllerInstance.index);
 userRoutes.post('/report', upload.array('images'), ReportControllerInstance.store);
+userRoutes.delete('/report/:id', ReportControllerInstance.destroy);
 
 authenticatedRoutes.use('/admin', adminRoutes);
 authenticatedRoutes.use('/user', userRoutes);

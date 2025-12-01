@@ -180,46 +180,122 @@ class ReportController {
     }
   }
 
-  async approve(req: Request, res: Response): Promise<Response> {
+  async accept(req: Request, res: Response): Promise<Response> {
     const transaction = await sequelize.transaction();
 
     try {
-        const { id } = req.params;
+      const { id } = req.params;
 
-        const APPROVED_STATUS_ID = 4;
+      const APPROVED_STATUS_ID = 2;
 
-        const report = await Report.findByPk(id);
+      const report = await Report.findByPk(id);
 
-        if (!report) {
-            return res.status(404).json({
-                error: 'Reporte não encontrado.'
-            });
-        }
-
-        if (report.status_id === APPROVED_STATUS_ID) {
-            return res.status(200).json({
-                message: 'Esse reporte já foi aprovado.'
-            });
-        }
-
-        await report.update({
-            status_id: APPROVED_STATUS_ID
-        }, { transaction });
-
-        await transaction.commit();
-
-        return res.status(200).json({
-          message: 'Reporte aprovado com sucesso!'
+      if (!report) {
+        return res.status(404).json({
+          error: 'Reporte não encontrado.'
         });
+      }
+
+      if (report.status_id === APPROVED_STATUS_ID) {
+        return res.status(200).json({
+          message: 'Esse reporte já foi aceito.'
+        });
+      }
+
+      await report.update({
+        status_id: APPROVED_STATUS_ID
+      }, { transaction });
+
+      await transaction.commit();
+
+      return res.status(200).json({
+        message: 'Reporte aceito com sucesso!'
+      });
 
     } catch (error) {
-        await transaction.rollback();
-        console.error('Erro ao aprovar o reporte:', error);
-        return res
-          .status(500)
-          .json({
-              error: 'Falha ao aprovar o reporte.'
-          });
+      await transaction.rollback();
+      console.error('Erro ao aceitar o reporte:', error);
+      return res
+        .status(500)
+        .json({
+          error: 'Falha ao aceitar o reporte.'
+        });
+    }
+  }
+
+  async refuse(req: Request, res: Response): Promise<Response> {
+    const transaction = await sequelize.transaction();
+
+    try {
+      const { id } = req.params;
+
+      const APPROVED_STATUS_ID = 4;
+
+      const report = await Report.findByPk(id);
+
+      if (!report) {
+        return res.status(404).json({
+          error: 'Reporte não encontrado.'
+        });
+      }
+
+      if (report.status_id === APPROVED_STATUS_ID) {
+        return res.status(200).json({
+          message: 'Esse reporte já foi recusado.'
+        });
+      }
+
+      await report.update({
+        status_id: APPROVED_STATUS_ID
+      }, { transaction });
+
+      await transaction.commit();
+
+      return res.status(200).json({
+        message: 'Reporte recusado com sucesso!'
+      });
+
+    } catch (error) {
+      await transaction.rollback();
+      console.error('Erro ao recusar o reporte:', error);
+      return res
+        .status(500)
+        .json({
+          error: 'Falha ao recusar o reporte.'
+        });
+    }
+  }
+
+  async destroy(req: Request, res: Response): Promise<Response> {
+    const transaction = await sequelize.transaction();
+
+    try {
+      const { id } = req.params;
+
+      const report = await Report.findByPk(id);
+
+      if (!report) {
+        return res.status(404).json({
+          error: 'Reporte não encontrado.'
+        });
+      }
+
+      await report.destroy({ transaction });
+
+      await transaction.commit();
+
+      return res.status(200).json({
+        message: 'Reporte deletado com sucesso!'
+      });
+
+    } catch (error) {
+      await transaction.rollback();
+      console.error('Erro ao deletar o reporte:', error);
+      return res
+        .status(500)
+        .json({
+          error: 'Falha ao deletar o reporte.'
+        });
     }
   }
 }
