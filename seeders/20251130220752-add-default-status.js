@@ -18,6 +18,11 @@ module.exports = {
         updated_at: new Date()
       },
       {
+        name: 'Aprovado',
+        created_at: new Date(),
+        updated_at: new Date()
+      },
+      {
         name: 'Recusado',
         created_at: new Date(),
         updated_at: new Date()
@@ -27,7 +32,7 @@ module.exports = {
 
   async down (queryInterface, Sequelize) {
     await queryInterface.bulkDelete('status', {
-      name: ['Em Análise', 'Aceito', 'Encerrado', 'Recusado']
+      name: ['Em Análise', 'Aceito', 'Encerrado', 'Aprovado', 'Recusado']
     }, {});
   }
 };

@@ -48,12 +48,11 @@ class ReportController {
       }
 
       const totalPages = Math.ceil(result.count / limit);
-      
+
       return res
         .status(200)
         .json({
           reports: result.rows,
-          // Informações adicionais para o frontend
           totalItems: result.count,
           totalPages: totalPages,
           currentPage: page,
@@ -70,7 +69,7 @@ class ReportController {
     }
   }
 
-  async create(req: Request, res: Response): Promise<Response> {
+  async store(req: Request, res: Response): Promise<Response> {
     const transaction = await sequelize.transaction();
 
     try {
@@ -120,6 +119,107 @@ class ReportController {
         .json({
           error: 'Falha ao criar o reporte.'
         });
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const transaction = await sequelize.transaction();
+
+    try {
+      const { id } = req.params;
+
+      const {
+          title,
+          description,
+          street,
+          number,
+          neighborhood,
+          postal_code,
+      } = req.body;
+
+      const report = await Report.findByPk(id);
+
+      if (!report) {
+        return res
+          .status(404)
+          .json({
+            error: 'Reporte não encontrado.'
+          });
+      }
+
+      const updateData: { [key: string]: any } = {};
+      if (title !== undefined) updateData.title = title;
+      if (description !== undefined) updateData.description = description;
+      if (street !== undefined) updateData.street = street;
+      if (number !== undefined) updateData.number = number;
+      if (neighborhood !== undefined) updateData.neighborhood = neighborhood;
+      if (postal_code !== undefined) updateData.postal_code = postal_code;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          error: 'Nenhum dado válido fornecido para atualização.'
+        });
+      }
+
+      await report.update(updateData, { transaction });
+
+      await transaction.commit();
+
+      return res.status(200).json({
+          message: 'Reporte atualizado com sucesso!'
+      });
+
+    } catch (error) {
+      await transaction.rollback();
+      console.error('Erro ao atualizar o reporte:', error);
+      return res
+        .status(500)
+        .json({
+            error: 'Falha ao atualizar o reporte.'
+        });
+    }
+  }
+
+  async approve(req: Request, res: Response): Promise<Response> {
+    const transaction = await sequelize.transaction();
+
+    try {
+        const { id } = req.params;
+
+        const APPROVED_STATUS_ID = 4;
+
+        const report = await Report.findByPk(id);
+
+        if (!report) {
+            return res.status(404).json({
+                error: 'Reporte não encontrado.'
+            });
+        }
+
+        if (report.status_id === APPROVED_STATUS_ID) {
+            return res.status(200).json({
+                message: 'Esse reporte já foi aprovado.'
+            });
+        }
+
+        await report.update({
+            status_id: APPROVED_STATUS_ID
+        }, { transaction });
+
+        await transaction.commit();
+
+        return res.status(200).json({
+          message: 'Reporte aprovado com sucesso!'
+        });
+
+    } catch (error) {
+        await transaction.rollback();
+        console.error('Erro ao aprovar o reporte:', error);
+        return res
+          .status(500)
+          .json({
+              error: 'Falha ao aprovar o reporte.'
+          });
     }
   }
 }

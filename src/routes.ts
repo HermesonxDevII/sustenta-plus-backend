@@ -23,16 +23,16 @@ routes.get('/', (req, res) => {
 routes.post('/register', AuthController.register);
 routes.post('/login', AuthController.login);
 
-adminRoutes.get('/teste', (req, res) => {
-  return res.json({ message: 'OK admin' });
-});
+adminRoutes.get('/report', ReportControllerInstance.index);
+adminRoutes.put('/report/:id', ReportControllerInstance.update);
+adminRoutes.patch('/report/approve/:id', ReportControllerInstance.approve);
 
 collectorRoutes.get('/teste', (req, res) => {
   return res.json({ message: 'OK collector' });
 });
 
 userRoutes.get('/report', ReportControllerInstance.index);
-userRoutes.post('/report', upload.array('images'), ReportControllerInstance.create);
+userRoutes.post('/report', upload.array('images'), ReportControllerInstance.store);
 
 authenticatedRoutes.use('/admin', adminRoutes);
 authenticatedRoutes.use('/user', userRoutes);
