@@ -1,5 +1,5 @@
 import { Model, DataTypes, Optional } from 'sequelize';
-import sequelize from '../config/database'; 
+import sequelize from '../config/database';
 import { User } from './User';
 import { Collection } from './Collection';
 import { Status } from './Status';
@@ -17,12 +17,12 @@ interface UserCollectionAttributes {
 export interface UserCollectionCreationAttributes extends Optional<UserCollectionAttributes, 'id' | 'deleted_at' | 'created_at' | 'updated_at'> {}
 
 export class UserCollection extends Model<UserCollectionAttributes, UserCollectionCreationAttributes> implements UserCollectionAttributes {
-  public id!: number;
-  public user_id!: number;
-  public collection_id!: number;
-  public status_id!: number;
-  public completed_at?: number; 
-  public deleted_at?: Date;
+  public declare id: number;
+  public declare user_id: number;
+  public declare collection_id: number;
+  public declare status_id: number;
+  public declare completed_at?: number;
+  public declare deleted_at?: Date;
   public readonly created_at!: Date;
   public readonly updated_at!: Date;
 

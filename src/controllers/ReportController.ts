@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Report } from '../models/Report';
 import { ReportPhoto } from '../models/ReportPhoto';
 import sequelize from '../config/database';
-import { Status } from '../models';
+import { Status, User } from '../models';
 
 const DEFAULT_LIMIT = 10;
 
@@ -32,6 +32,11 @@ class ReportController {
             model: Status,
             as: 'status',
             attributes: ['name']
+          },
+          {
+            model: User,
+            as: 'user',
+            attributes: ['name', 'CPF', 'email', 'phone']
           }
       ],
         order: [['createdAt', 'DESC']] as [string, string][]
@@ -97,7 +102,6 @@ class ReportController {
       }, { transaction });
 
       if (uploadedFiles && uploadedFiles.length > 0) {
-        console.log(1)
         const photosData = uploadedFiles.map(file => ({
           report_id: newReport.id,
           path: file.filename,
